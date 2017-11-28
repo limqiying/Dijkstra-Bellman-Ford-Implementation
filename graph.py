@@ -74,9 +74,11 @@ class ShortestPathGraph(Graph):
         # stores distances from root as returned by the bellman-ford algorithm
         self._bf_dist = defaultdict(lambda: INF)
         # stores the parent nodes of each node in the shortest path Dijkstra tree
-        self._d_prev = defaultdict(None)
+        self._d_prev = defaultdict()
+        self._d_prev[root] = None
         # stores the parent nodes of each node in the shortest path BF tree
-        self._bf_prev = defaultdict(None)
+        self._bf_prev = defaultdict()
+        self._bf_prev[root] = None
 
     def _dijkstra(self):
         """
