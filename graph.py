@@ -150,8 +150,6 @@ class ShortestPathGraph(Graph):
         return list(map(lambda x: (x[1], x[0]), self._d_prev.items()))
 
 
-
-
     def bellmanford(self, root):
 
         """
