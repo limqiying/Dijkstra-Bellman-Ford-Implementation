@@ -40,8 +40,9 @@ class Graph:
         Edges are input as a list of tuples, (v,w,c) where v,w are Nodes and c is the cost of the edge
         """
         for (v, w, c) in edge_list:
-            if v in self.get_nodes() and w in self.get_nodes():
-                v.set_weight(w, c)
+            if v in self._graph.get_nodes() and w in self._graph.get_nodes():
+                self._graph[v].add(w)
+                self._cost[(v, w)] = c
             else:
                 raise KeyError('No such node ' + str(v) + " or " + str(w) + " in graph")
 
