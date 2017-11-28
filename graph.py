@@ -39,7 +39,7 @@ class Graph:
         adds a list of Nodes specified by the input list nodes
         """
         for n in nodes:
-            if n not in self.get_nodes():
+            if not self.in_graph(n):
                 self._graph[n] = set()
 
     def set_edges(self, edge_list):
@@ -66,6 +66,9 @@ class Graph:
             return self._graph[node]
         else:
             raise KeyError("No such node (" + str(node) + ") in graph")
+
+    def in_graph(self, node):
+        return node in self.get_nodes()
 
     def __repr__(self):
         return str(dict(self._graph))
