@@ -104,23 +104,52 @@ class ShortestPathGraph(Graph):
             if d_v == self._d_dist[v]:  # verifies that the popped item correctly contains the minimum distance
                 for neighbour in self.get_out_neighbours(v):
                     new_distance = self._d_dist[v] + self._cost[(v, neighbour)]
-                    if new_distance < self._d_dist[v]:
+                    if new_distance < self._d_dist[neighbour]:
                         self._d_dist[neighbour] = new_distance
                         # this line "decreases key" of the neighbour by pushing in a tuple containing the neighbour and
                         # the shorter distance value
                         heapq.heappush(d, (new_distance, neighbour))
                         self._d_prev[neighbour] = v
 
-    def dijkstra_get_dist(self, node):
+    def dijkstra_get_dist(self, node, numerical=False):
         """
         returns the value dist(root, node)
         """
         if not self._dijkstra_computed:
+            print("Running Dijkstra Algorithm")
+            self._dijkstra()
+        if self._d_dist[node] == INF:
+            return "There is no path from " + str(self._root) + " to " + str(node) + "."
+        elif numerical:
+            return self._d_dist[node]
+        else:
+            return "Distance from " + str(self._root) + " to " + str(i) + " is " + str(self._d_dist[node])
+
+    def dijkstra_get_path(self, node):
+        """
+        returns the shortest path from node to root
+        """
+        if not self._dijkstra_computed:
+            print("Running Dijkstra Algorithm")
             self._dijkstra()
         if self._d_dist[node] == INF:
             return "There is no path from " + str(self._root) + " to " + str(node) + "."
         else:
-            return self._d_dist[node]
+            v = node
+            path = [node]
+            while self._d_prev[v] is not None:
+                path.append(self._d_prev[v])
+                v = self._d_prev[v]
+            path.reverse()
+            return path
+
+    def dijkstra_get_tree(self):
+        if not self._dijkstra_computed:
+            print("Running Dijkstra Algorithm")
+            self._dijkstra()
+        return list(map(lambda x: (x[1], x[0]), self._d_prev.items()))
+
+
 
 
     def bellmanford(self, root):
@@ -133,4 +162,4 @@ class ShortestPathGraph(Graph):
 graph = ShortestPathGraph(0)
 graph.set_nodes(range(10))
 graph.set_edges([(0, 2, 1), (0, 3, 3), (2, 4, 6), (3, 1, 7), (1, 5, 3), (1, 9, 5), (2, 5, 3), (2, 4, 1), (3, 4, 1)])
-graph.dijkstra_get_dist(3)
+print(graph.dijkstra_get_tree())
