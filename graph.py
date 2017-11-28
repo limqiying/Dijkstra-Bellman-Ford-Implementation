@@ -203,11 +203,5 @@ class ShortestPathGraph(Graph):
 graph = ShortestPathGraph(0)
 graph.set_nodes(range(10))
 graph.set_edges([(0, 2, 1), (0, 3, 3), (2, 4, 6), (3, 1, 7), (1, 5, 3), (1, 9, 5), (2, 5, 3), (2, 4, 1), (3, 4, 1)])
-<<<<<<< HEAD
 print graph.dijkstra_get_dist(3)
 
-
-
-=======
-print(graph.dijkstra_get_tree())
->>>>>>> origin/master
