@@ -49,6 +49,9 @@ class Graph:
                 self._cost[(v, w)] = min(c, self._cost[(v, w)])
             else:
                 raise KeyError('No such node ' + str(v) + " or " + str(w) + " in graph")
+    
+    def get_edge_cost(self, u, v):
+        return self._cost[(v, w)]
 
     def get_out_neighbours(self, node):
         """
