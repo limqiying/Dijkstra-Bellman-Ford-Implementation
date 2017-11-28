@@ -61,28 +61,41 @@ class Graph:
 
 
 class ShortestPathGraph(Graph):
+
     def __init__(self, root):
         super(Graph, self).__init__()
+        self._root = root
         # stores distances from root as returned by the dijkstra algorithm
         self._d_dist = [INF] * len(self.get_nodes())
         # stores distances from root as returned by the bellman-ford algorithm
         self._bf_dist = [INF] * len(self.get_nodes())
         # stores the parent nodes of each node in the shortest path Dijkstra tree
-        self.d_prev = [None] * len(self.get_nodes())
+        self._d_prev = [None] * len(self.get_nodes())
         # stores the parent nodes of each node in the shortest path BF tree
-        self.bf_prev = [None] * len(self.get_nodes())
+        self._bf_prev = [None] * len(self.get_nodes())
 
-    def dijkstra(self, root):
-        d = [(INF, node) if node != root else (0, node) for node in self.get_nodes()]
+    def dijkstra(self):
+        """
+        An implementation of the Dijkstra's Algorithm, as taken from the pseudocode from class notes.
+        Since python's heapq does not have an easily-accessible decreaseKey() function, we worked around this by
+        maintaining the self._d_dist array to hold the 'correct', up-to-date distance. As we extract the minimum key
+        from the
+        :return:
+        """
+        # making the priority queue
+        d = [(INF, node) if node != self._root else (0, node) for node in self.get_nodes()]
         heapq.heapify(d)
-        self._d_dist[root] = 0
+        self._d_dist[self._root] = 0    # setting the distance of the root to self as 0
 
+        # loop through all the vertices
         for i in range(len(self.get_nodes())):
-            (d_v, v) = heapq.heappop(d)
-            if d_v == self._d_dist[v]:
+            (d_v, v) = heapq.heappop(d)     # extract the vertex with the minimum distance to the root
+            if d_v == self._d_dist[v]:      # verifies that the popped item correctly contains the minimum distance
                 for neighbour in self.get_out_neighbours(v):
                     new_distance = d[v] + self._cost[(v, neighbour)]
                     if new_distance < d[neighbour]:
                         self._d_dist[neighbour] = new_distance
+                        # this line "decreases key" of the neighbour by pushing in a tuple containing the neighbour and
+                        # the shorter distance value
                         heapq.heappush(d, (new_distance, neighbour))
-                        self.d_prev[neighbour] = v
+                        self._d_prev[neighbour] = v
