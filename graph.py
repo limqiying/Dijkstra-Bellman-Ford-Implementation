@@ -42,7 +42,8 @@ class Graph:
         for (v, w, c) in edge_list:
             if v in self._graph.get_nodes() and w in self._graph.get_nodes():
                 self._graph[v].add(w)
-                self._cost[(v, w)] = c
+                # uses the edge with the smaller weight, if there are parallel edges
+                self._cost[(v, w)] = min(c, self._cost[(v, w)])
             else:
                 raise KeyError('No such node ' + str(v) + " or " + str(w) + " in graph")
 
@@ -61,10 +62,10 @@ class Graph:
 
 
 class ShortestPathGraph(Graph):
-
     def __init__(self, root):
         super(Graph, self).__init__()
         self._root = root
+        self.set_nodes([root])
         # stores distances from root as returned by the dijkstra algorithm
         self._d_dist = [INF] * len(self.get_nodes())
         # stores distances from root as returned by the bellman-ford algorithm
@@ -78,19 +79,18 @@ class ShortestPathGraph(Graph):
         """
         An implementation of the Dijkstra's Algorithm, as taken from the pseudocode from class notes.
         Since python's heapq does not have an easily-accessible decreaseKey() function, we worked around this by
-        maintaining the self._d_dist array to hold the 'correct', up-to-date distance. As we extract the minimum key
-        from the
-        :return:
+        maintaining the self._d_dist array to hold the 'correct', up-to-date distance. When we extract the minimum key
+        from the heap, we first verify if this item represents the correct distance as in Line 93, before continuing as
+        the pseudocode describes.
         """
         # making the priority queue
         d = [(INF, node) if node != self._root else (0, node) for node in self.get_nodes()]
         heapq.heapify(d)
-        self._d_dist[self._root] = 0    # setting the distance of the root to self as 0
-
+        self._d_dist[self._root] = 0  # setting the distance of the root to self as 0
         # loop through all the vertices
         for i in range(len(self.get_nodes())):
-            (d_v, v) = heapq.heappop(d)     # extract the vertex with the minimum distance to the root
-            if d_v == self._d_dist[v]:      # verifies that the popped item correctly contains the minimum distance
+            (d_v, v) = heapq.heappop(d)  # extract the vertex with the minimum distance to the root
+            if d_v == self._d_dist[v]:  # verifies that the popped item correctly contains the minimum distance
                 for neighbour in self.get_out_neighbours(v):
                     new_distance = d[v] + self._cost[(v, neighbour)]
                     if new_distance < d[neighbour]:
@@ -99,3 +99,8 @@ class ShortestPathGraph(Graph):
                         # the shorter distance value
                         heapq.heappush(d, (new_distance, neighbour))
                         self._d_prev[neighbour] = v
+
+
+graph = ShortestPathGraph()
+graph.set_nodes(range(10))
+graph.set_edges([(2, 4, 6), (3, 1, 7), (1, 5, 3), (1, 9, 5), (2, 5, 3), (2, 4, 1)])
