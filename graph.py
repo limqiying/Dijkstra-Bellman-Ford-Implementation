@@ -59,44 +59,34 @@ class Graph:
     def __repr__(self):
         return str(dict(self._graph))
 
-# class ShortestPathGraph(Graph):
-#
-#     def __init__(self, root):
-#         super(Graph, self).__init__()
-#         self._d_dist = [INF]*len(self.get_nodes())    # stores distances from root as returned by the dijkstra algorithm
-#         self._bf_dist = [INF]*len(self.get_nodes())   # stores distances from root as returned by the bellman-ford algorithm
-#
-#     @staticmethod
-#     def siftdown(heap, startpos, pos):
-#         """
-#         This method is taken from the built-in function for heapq, to decrease the key value
-#         :param heap: a heapq object
-#         :param startpos:
-#         :param pos:
-#         """
-#         newitem = heap[pos]
-#         # Follow the path to the root, moving parents down until finding a place
-#         # newitem fits.
-#         while pos > startpos:
-#             parentpos = (pos - 1) >> 1
-#             parent = heap[parentpos]
-#             if newitem < parent:
-#                 heap[pos] = parent
-#                 pos = parentpos
-#                 continue
-#             break
-#         heap[pos] = newitem
-#
-#     def dijkstra(self, root):
-#         d = [(INF, node) if node != root else (0, node) for node in self.get_nodes()]
-#         heapq.heapify(d)
-#         self._d_dist[root] = 0
-#
-#
-#         set_X = set()
-#         for i in range(len(self.get_nodes())):
-#             (d_v, v) = heapq.heappop(d)
-#             set_X.add(v)
-#             for neighbour in self.get_out_neighbours(v):
-#                 if (v.get_dist() + v.get_weight(neighbour)) < neighbour.get_dist():
-#
+class ShortestPathGraph(Graph):
+
+    def __init__(self, root):
+        super(Graph, self).__init__()
+        self._d_dist = [INF]*len(self.get_nodes())    # stores distances from root as returned by the dijkstra algorithm
+        self._bf_dist = [INF]*len(self.get_nodes())   # stores distances from root as returned by the bellman-ford algorithm
+
+    @staticmethod
+    def decrease_key(heap, item):
+        # If item already in priority queue with higher priority, update its priority and rebuild the heap.
+        # If item already in priority queue with equal or lower priority, do nothing.
+        # If item not in priority queue, do the same thing as self.push.
+        for index, (dist, node) in enumerate(heap):
+            if node is item:
+                del heap[index]
+                heap.append(item)
+                heapq.heapify(heap)
+
+    def dijkstra(self, root):
+        d = [(INF, node) if node != root else (0, node) for node in self.get_nodes()]
+        heapq.heapify(d)
+        self._d_dist[root] = 0
+
+        set_x = set()
+        for i in range(len(self.get_nodes())):
+            (d_v, v) = heapq.heappop(d)
+            set_x.add(v)
+            for neighbour in self.get_out_neighbours(v):
+                if (d[v] + v.get_weight(neighbour)) < d[neighbour]:
+                    siftdown(d, d[0],)
+
