@@ -59,34 +59,30 @@ class Graph:
     def __repr__(self):
         return str(dict(self._graph))
 
-class ShortestPathGraph(Graph):
 
+class ShortestPathGraph(Graph):
     def __init__(self, root):
         super(Graph, self).__init__()
-        self._d_dist = [INF]*len(self.get_nodes())    # stores distances from root as returned by the dijkstra algorithm
-        self._bf_dist = [INF]*len(self.get_nodes())   # stores distances from root as returned by the bellman-ford algorithm
-
-    @staticmethod
-    def decrease_key(heap, item):
-        # If item already in priority queue with higher priority, update its priority and rebuild the heap.
-        # If item already in priority queue with equal or lower priority, do nothing.
-        # If item not in priority queue, do the same thing as self.push.
-        for index, (dist, node) in enumerate(heap):
-            if node is item:
-                del heap[index]
-                heap.append(item)
-                heapq.heapify(heap)
+        # stores distances from root as returned by the dijkstra algorithm
+        self._d_dist = [INF] * len(self.get_nodes())
+        # stores distances from root as returned by the bellman-ford algorithm
+        self._bf_dist = [INF] * len(self.get_nodes())
+        # stores the parent nodes of each node in the shortest path Dijkstra tree
+        self.d_prev = [None] * len(self.get_nodes())
+        # stores the parent nodes of each node in the shortest path BF tree
+        self.bf_prev = [None] * len(self.get_nodes())
 
     def dijkstra(self, root):
         d = [(INF, node) if node != root else (0, node) for node in self.get_nodes()]
         heapq.heapify(d)
         self._d_dist[root] = 0
 
-        set_x = set()
         for i in range(len(self.get_nodes())):
             (d_v, v) = heapq.heappop(d)
-            set_x.add(v)
-            for neighbour in self.get_out_neighbours(v):
-                if (d[v] + v.get_weight(neighbour)) < d[neighbour]:
-                    siftdown(d, d[0],)
-
+            if d_v == self._d_dist[v]:
+                for neighbour in self.get_out_neighbours(v):
+                    new_distance = d[v] + self._cost[(v, neighbour)]
+                    if new_distance < d[neighbour]:
+                        self._d_dist[neighbour] = new_distance
+                        heapq.heappush(d, (new_distance, neighbour))
+                        self.d_prev[neighbour] = v
