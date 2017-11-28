@@ -32,16 +32,18 @@ class Graph:
         """
         adds a list of Nodes specified by the input list nodes
         """
+        print(self)
         for n in nodes:
             if n not in self.get_nodes():
                 self._graph[n] = set()
+        print(self)
 
     def set_edges(self, edge_list):
         """
         Edges are input as a list of tuples, (v,w,c) where v,w are Nodes and c is the cost of the edge
         """
         for (v, w, c) in edge_list:
-            if v in self._graph.get_nodes() and w in self._graph.get_nodes():
+            if v in self.get_nodes() and w in self.get_nodes():
                 self._graph[v].add(w)
                 # uses the edge with the smaller weight, if there are parallel edges
                 self._cost[(v, w)] = min(c, self._cost[(v, w)])
@@ -64,9 +66,11 @@ class Graph:
 
 class ShortestPathGraph(Graph):
     def __init__(self, root):
-        super(Graph, self).__init__()
+        Graph.__init__(self)
         self._root = root
         self.set_nodes([root])
+        self._dijkstra_computed = False     # prevents unnecessary re-computation of distances
+        self._bellman_ford_computed = False
         # stores distances from root as returned by the dijkstra algorithm
         self._d_dist = [INF] * len(self.get_nodes())
         # stores distances from root as returned by the bellman-ford algorithm
@@ -76,7 +80,7 @@ class ShortestPathGraph(Graph):
         # stores the parent nodes of each node in the shortest path BF tree
         self._bf_prev = [None] * len(self.get_nodes())
 
-    def dijkstra(self):
+    def _dijkstra(self):
         """
         An implementation of the Dijkstra's Algorithm, as taken from the pseudocode from class notes.
         Since python's heapq does not have an easily-accessible decreaseKey() function, we worked around this by
@@ -85,8 +89,8 @@ class ShortestPathGraph(Graph):
         the pseudocode describes.
         """
         # making the priority queue
+        print(self)
         d = [(INF, node) if node != self._root else (0, node) for node in self.get_nodes()]
-        heapq.heapify(d)
         self._d_dist[self._root] = 0  # setting the distance of the root to self as 0
         # loop through all the vertices
         for i in range(len(self.get_nodes())):
@@ -101,6 +105,18 @@ class ShortestPathGraph(Graph):
                         heapq.heappush(d, (new_distance, neighbour))
                         self._d_prev[neighbour] = v
 
+    def dijkstra_get_dist(self, node):
+        """
+        returns the value dist(root, node)
+        """
+        self.dijkstra()
+        print(self._d_dist)
+        if self._d_dist[node] == INF:
+            return "There is no path from " + str(self._root) + " to " + str(node) + "."
+        else:
+            return self._d_dist[node]
+
+
     def bellmanford(self, root):
 
         """
@@ -111,3 +127,4 @@ class ShortestPathGraph(Graph):
 graph = ShortestPathGraph(0)
 graph.set_nodes(range(10))
 graph.set_edges([(0, 2, 1), (0, 3, 3), (2, 4, 6), (3, 1, 7), (1, 5, 3), (1, 9, 5), (2, 5, 3), (2, 4, 1), (3, 4, 1)])
+print(graph.get_nodes())
