@@ -23,17 +23,18 @@ class Graph:
 
     def __init__(self):
         self._graph = defaultdict(set)
-        self._cost = defaultdict()
+        self._cost = defaultdict(lambda: INF)
 
     def get_nodes(self):
-        return list(self._graph.keys())
+        return set(self._graph.keys())
 
     def set_nodes(self, nodes):
         """
         adds a list of Nodes specified by the input list nodes
         """
         for n in nodes:
-            self._graph[n] = set()
+            if n not in self.get_nodes():
+                self._graph[n] = set()
 
     def set_edges(self, edge_list):
         """
@@ -100,8 +101,13 @@ class ShortestPathGraph(Graph):
                         heapq.heappush(d, (new_distance, neighbour))
                         self._d_prev[neighbour] = v
 
-    def bellmanford(self,root):
-        
+    def bellmanford(self, root):
+
         """
         This is the implementation of bellman_ford algorithm we learned during the class. 
         """
+
+
+graph = ShortestPathGraph(0)
+graph.set_nodes(range(10))
+graph.set_edges([(0, 2, 1), (0, 3, 3), (2, 4, 6), (3, 1, 7), (1, 5, 3), (1, 9, 5), (2, 5, 3), (2, 4, 1), (3, 4, 1)])
