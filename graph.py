@@ -21,41 +21,6 @@ class Graph:
         {1: [2], 2: [3], 3: [1,2]}
     """
 
-    class Node:
-        """
-        a Node used in a Graph and Tree
-        """
-
-        def __init__(self, name):
-            self._name = name  # identifier
-            self._previous = None  # to be used in determining the parent in a tree
-            self._distance = INF  # the shortest path from node to the particular start node
-            self._weights = defaultdict()
-
-        def name(self):
-            return self._name
-
-        def get_prev(self):
-            return self._previous
-
-        def set_prev(self, v):
-            self._previous = v
-
-        def get_dist(self):
-            return self._distance
-
-        def set_dist(self):
-            return self._distance
-
-        def get_weight(self, other):
-            return self._weights[other]
-
-        def set_weight(self, other, w):
-            self._weights[other] = w
-
-        def __repr__(self):
-            return str(self._name)
-
     def __init__(self):
         self._graph = defaultdict(set)
         self._cost = defaultdict()
@@ -65,7 +30,7 @@ class Graph:
 
     def set_nodes(self, nodes):
         """
-        adds a list of Nodes whose names are specified by the input list nodes
+        adds a list of Nodes specified by the input list nodes
         """
         for n in nodes:
             self._graph[n] = set()
@@ -93,17 +58,44 @@ class Graph:
     def __repr__(self):
         return str(dict(self._graph))
 
-# class Dijkstra(Graph):
+# class ShortestPathGraph(Graph):
 #
-#     def populate_d(self, root):
-#         d = [(node, INF) if node != root else (node, 0) for node in self.graph.get_nodes()]
+#     def __init__(self, root):
+#         super(Graph, self).__init__()
+#         self._d_dist = [INF]*len(self.get_nodes())    # stores distances from root as returned by the dijkstra algorithm
+#         self._bf_dist = [INF]*len(self.get_nodes())   # stores distances from root as returned by the bellman-ford algorithm
+#
+#     @staticmethod
+#     def siftdown(heap, startpos, pos):
+#         """
+#         This method is taken from the built-in function for heapq, to decrease the key value
+#         :param heap: a heapq object
+#         :param startpos:
+#         :param pos:
+#         """
+#         newitem = heap[pos]
+#         # Follow the path to the root, moving parents down until finding a place
+#         # newitem fits.
+#         while pos > startpos:
+#             parentpos = (pos - 1) >> 1
+#             parent = heap[parentpos]
+#             if newitem < parent:
+#                 heap[pos] = parent
+#                 pos = parentpos
+#                 continue
+#             break
+#         heap[pos] = newitem
+#
+#     def dijkstra(self, root):
+#         d = [(INF, node) if node != root else (0, node) for node in self.get_nodes()]
 #         heapq.heapify(d)
-#         root.set_dist(0)
+#         self._d_dist[root] = 0
+#
 #
 #         set_X = set()
 #         for i in range(len(self.get_nodes())):
-#             (v, d_v) = heapq.heappop(d)
+#             (d_v, v) = heapq.heappop(d)
 #             set_X.add(v)
 #             for neighbour in self.get_out_neighbours(v):
 #                 if (v.get_dist() + v.get_weight(neighbour)) < neighbour.get_dist():
-
+#
