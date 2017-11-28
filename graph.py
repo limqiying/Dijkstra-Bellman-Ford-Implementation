@@ -99,3 +99,16 @@ class ShortestPathGraph(Graph):
                         # the shorter distance value
                         heapq.heappush(d, (new_distance, neighbour))
                         self._d_prev[neighbour] = v
+
+            (d_v, v) = heapq.heappop(d)
+            set_x.add(v)
+            for neighbour in self.get_out_neighbours(v):
+                if (d[v] + v.get_weight(neighbour)) < d[neighbour]:
+                    siftdown(d, d[0],)
+
+
+    def bellmanford(self,root):
+        
+        """
+        This is the implementation of bellman_ford algorithm we learned during the class. 
+        """
