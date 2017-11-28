@@ -100,7 +100,8 @@ class ShortestPathGraph(Graph):
                         heapq.heappush(d, (new_distance, neighbour))
                         self._d_prev[neighbour] = v
 
-
-graph = ShortestPathGraph()
-graph.set_nodes(range(10))
-graph.set_edges([(2, 4, 6), (3, 1, 7), (1, 5, 3), (1, 9, 5), (2, 5, 3), (2, 4, 1)])
+    def bellmanford(self,root):
+        
+        """
+        This is the implementation of bellman_ford algorithm we learned during the class. 
+        """
