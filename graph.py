@@ -1,5 +1,8 @@
 """
-Creates graph object
+The ShortestPathGraph object allows us to easily create graphs, and run the Dijkstra and Bellman-Ford Algorithm,
+and access the shortest distance as well as shortest distance trees.
+
+Authors: Qi Ying Lim, Jiacheng Xu
 """
 
 from collections import defaultdict
@@ -52,7 +55,7 @@ class Graph:
                 raise KeyError('No such node ' + str(v) + " or " + str(w) + " in graph")
     
     def get_edge_cost(self, u, v):
-        return self._cost[(v, w)]
+        return self._cost[(u, v)]
 
     def get_out_neighbours(self, node):
         """
@@ -85,6 +88,9 @@ class ShortestPathGraph(Graph):
         # stores the parent nodes of each node in the shortest path BF tree
         self._bf_prev = defaultdict()
         self._bf_prev[root] = None
+
+    def get_root(self):
+        return self._root
 
     def _dijkstra(self):
         """
@@ -123,7 +129,7 @@ class ShortestPathGraph(Graph):
         elif numerical:
             return self._d_dist[node]
         else:
-            return "Distance from " + str(self._root) + " to " + str(i) + " is " + str(self._d_dist[node])
+            return "Distance from " + str(self._root) + " to " + str(node) + " is " + str(self._d_dist[node])
 
     def dijkstra_get_path(self, node):
         """
@@ -144,6 +150,9 @@ class ShortestPathGraph(Graph):
             return path
 
     def dijkstra_get_tree(self):
+        """
+        returns the edge set representing the shortest path tree obtained by running Dijkstra
+        """
         if not self._dijkstra_computed:
             print("Running Dijkstra Algorithm")
             self._dijkstra()
@@ -155,9 +164,3 @@ class ShortestPathGraph(Graph):
         """
         This is the implementation of bellman_ford algorithm we learned during the class. 
         """
-
-
-graph = ShortestPathGraph(0)
-graph.set_nodes(range(10))
-graph.set_edges([(0, 2, 1), (0, 3, 3), (2, 4, 6), (3, 1, 7), (1, 5, 3), (1, 9, 5), (2, 5, 3), (2, 4, 1), (3, 4, 1)])
-print(graph.dijkstra_get_tree())
