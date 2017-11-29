@@ -81,17 +81,9 @@ class Graph:
         else:
             raise KeyError("No such node (" + str(node) + ") in graph")
 
-<<<<<<< HEAD
-    def in_graph(self, node):
-        return node in self.get_nodes()
-
-=======
-
-
     def in_graph(self, node):
         return node in self.get_nodes()
     
->>>>>>> jc_version
     def __repr__(self):
         return str(dict(self._graph))
 
@@ -128,6 +120,8 @@ class ShortestPathGraph(Graph):
         self._dijkstra_computed = True
         # making the priority queue
         d = [(INF, node) if node != self._root else (0, node) for node in self.get_nodes()]
+        visisted = set()
+        visited.add(self._root)
         self._d_dist[self._root] = 0  # setting the distance of the root to self as 0
         # loop through all the vertices
         for i in range(len(self.get_nodes())):
@@ -186,7 +180,8 @@ class ShortestPathGraph(Graph):
     def _bellmanford(self):
 
         """
-        This is the implementation of bellman_ford algorithm we learned during the class.
+        This is the implementation of bellman_ford algorithm we learned during the class. 
+        I used two D array
         """
         n = len(self.get_nodes())
         self._bellman_ford_computed = True
@@ -197,10 +192,11 @@ class ShortestPathGraph(Graph):
             for i in range(n):  # go through all nodes
                 d[i][k] = d[i][k - 1]
                 for u in self.get_in_neighbours(i):
-                    if d[i][k] < d[u][k - 1] + self._cost[(u, i)]:
+                    if d[i][k] < d[u][k - 1] + self._cost[(u, i)]:  # if current is optimum, do nothing
                         continue
                     else:
-                        d[i][k] = d[u][k - 1] + self._cost[(u, i)]
+                        d[i][k] = d[u][k - 1] + self._cost[(u, i)] # modify the current distance and parent node
+                        self._bf_prev[i] = u
 
         # (One more iteration to check the negative cycle)
         for i in range(n):
@@ -223,24 +219,41 @@ class ShortestPathGraph(Graph):
         else:
             return self._bf_dist[node]
 
+    def bellmanford_get_path(self, node):
+        """
+        returns the shortest path from node to root
+        """
+        if not self._bellman_ford_computed:
+            print("Running Bellman-Ford Algorithm")
+            if self._bellmanford() == 0:
+                return "Negative cycle"
+
+        if self._bf_dist[node] == INF:
+            return "There is no path from " + str(self._root) + " to " + str(node) + "."
+        else:
+            v = node
+            path = [node]
+            while self._bf_prev[v] is not None:
+                path.append(self._bf_prev[v])
+                v = self._bf_prev[v]
+            path.reverse()
+            return path
+
+    def bellmanford_get_tree(self):
+        """
+        returns the edge set representing the shortest path tree obtained by running Dijkstra
+        """
+        if not self._bellman_ford_computed:
+            print("Running Bellman-Ford Algorithm")
+            self._bellmanford()
+        return list(map(lambda x: (x[1], x[0]), self._bf_prev.items()))
+
 
 graph = ShortestPathGraph(0)
-graph.set_nodes(range(10))
-graph.set_edges([(0, 2, 1), (0, 3, 3), (2, 4, 6), (3, 1, 7), (1, 5, 3), (1, 9, 5), (2, 5, 3), (2, 4, 1), (3, 4, 1)])
+graph.set_nodes(range(5))
+graph.set_edges([(0, 1, 1), (0, 2, 5), (2, 3, -5), (1, 3, 1), (3,4,1)])
 
-graph.bellmanford_get_dist(3)
 
-print(graph.dijkstra_get_dist(3))
-print(graph.bellmanford_get_dist(3))
+#print(graph.dijkstra_get_dist(3))
+print(graph.bellmanford_get_tree())
 
-print('****')
-print(graph.dijkstra_get_dist(1))
-print(graph.bellmanford_get_dist(1))
-print('****')
-
-print(graph.dijkstra_get_dist(7))
-print(graph.bellmanford_get_dist(7))
-print('****')
-
-print(graph.dijkstra_get_dist(5))
-print(graph.bellmanford_get_dist(5))
