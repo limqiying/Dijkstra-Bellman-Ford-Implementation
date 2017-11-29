@@ -44,7 +44,7 @@ class NonNegativeTest:
         return self._random_graphs[index]
 
     @staticmethod
-    def brute_force_test(g, node):
+    def brute_force_result(g, node):
         """
         computes the shortest distance from graph at index to the specified node using brute force
         """
