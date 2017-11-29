@@ -23,9 +23,6 @@ class Graph:
     then our graph is stored in the dictionary:
         {1: [2], 2: [3], 3: [1,2]}
     """
-    """ 
-    Done by Tia
-    """
 
     def __init__(self):
         self._graph = defaultdict(set)
@@ -75,6 +72,7 @@ class Graph:
 
 
 class ShortestPathGraph(Graph):
+
     def __init__(self, root):
         Graph.__init__(self)
         self._root = root
