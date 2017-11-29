@@ -3,6 +3,7 @@ Script used to get and plot performance data for both algorithms
 requires matplotlib as dependency
 """
 from non_neg_test import *
+from neg_test import *
 from math import log
 import matplotlib.pyplot as plt
 
@@ -11,6 +12,7 @@ class PerformanceTest:
 
     def __init__(self, num_data=1000):
         self._test = NonNegativeTest(num_data)
+        self._test = NegativeTest(num_data)
         self._brute_data, self._d_data = self._test.get_performance_data()
 
     def get_dij_data(self):
