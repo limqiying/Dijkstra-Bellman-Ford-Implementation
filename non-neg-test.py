@@ -6,6 +6,7 @@ Author: Qi Ying Lim
 from graph import *
 from test_util import *
 from random import randrange, sample, choice
+import timeit
 
 
 class NonNegativeTest:
@@ -48,4 +49,46 @@ class NonNegativeTest:
 
     def run_correctness(self):
         TestTools.correctness_test1(self._random_graphs)
+        """
+        Runs test on all the randomly generated graphs, with non-negative edges
+        If there is an error, this will be raised by the assertion.
+        Otherwise, a simple "test passed" will be created.
+        This test only checks that the distance computed by the brute force method is equal to ths distance computed
+        by Dijkstra's algorithm.
+        This avoids the problem where there might be two paths that have the same smallest distances.
+        """
+        test_num = 1  # counter for the number of tests
+        for graph in self._random_graphs:
+            try:
+                node = choice(list(graph.get_nodes()))  # randomly chooses some node in the node list
+            except IndexError:
+                print('graph has no nodes')
+            else:
+                (brute_path, brute_dist) = TestTools.brute_force_result(graph, node)
+                d_dist = graph.dijkstra_get_dist(node, numerical=True)
+                assert brute_dist == d_dist, "brute distance is " + str(brute_dist) + " while d computed " + str(
+                    d_dist)
+                print("Test " + str(test_num) + " passed.")
+                test_num += 1
+
+    def get_performance_data(self):
+        """
+        returns the list of tuples of (n, m, time), where n is the number of nodes, m the number of edges, and
+        time is the time taken to run Dijkstra on the graph at this index
+        """
+        brute_data = []
+        d_data = []
+        for graph in self._random_graphs:
+            try:
+                node = choice(list(graph.get_nodes()))  # randomly chooses some node in the node list
+            except IndexError:
+                print('graph has no nodes')
+            else:
+                n = graph.get_num_nodes()
+                m = graph.get_num_edges()
+                brute_time = timeit.timeit(TestTools.brute_force_result(graph, node))
+                d_time = timeit.timeit(graph.dijkstra_get_dist(node, numerical=True))
+                brute_data.append((n, m, brute_time))
+                d_data.append((n, m, d_time))
+        return brute_data, d_data
 
