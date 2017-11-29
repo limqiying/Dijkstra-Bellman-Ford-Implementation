@@ -180,9 +180,7 @@ class ShortestPathGraph(Graph):
             self._dijkstra()
         return list(map(lambda x: (x[1], x[0]), self._d_prev.items()))
 
-
     def _bellmanford(self):
-
         """
         This is the implementation of bellman_ford algorithm we learned during the class. 
         I used 2d array of the psedo-code. 
@@ -199,31 +197,31 @@ class ShortestPathGraph(Graph):
                     if d[i][k] < d[u][k - 1] + self._cost[(u, i)]:  # if current is optimum, do nothing
                         continue
                     else:
-                        d[i][k] = d[u][k - 1] + self._cost[(u, i)] # modify the current distance 
-                        self._bf_prev[i] = u #switch the parent node
+                        d[i][k] = d[u][k - 1] + self._cost[(u, i)]  # modify the current distance
+                        self._bf_prev[i] = u  # switch the parent node
 
         # (One more iteration to check the negative cycle)
         for i in range(n):
             for u in self.get_in_neighbours(i):
                 if d[i][n - 1] > d[u][n - 1] + self._cost[(u, i)]:
-                    #print("Negative Cycle")
+                    # print("Negative Cycle")
                     return i
 
         # Assign final distance to each node
         for node in self.get_nodes():
             self._bf_dist[node] = d[node][n - 1]
-        return n +1
+        return n + 1
 
     def bellmanford_get_dist(self, node):
         result = 0
         if not self._bellman_ford_computed:
             result = self._bellmanford()
-        if result != len(self.get_nodes())+1:
-            return (-INF, result) 
+        if result != len(self.get_nodes()) + 1:
+            return (-INF, result)
         if self._bf_dist[node] == INF:
             return (INF, INF)
         else:
-            #return "Distance from " + str(self._root) + " to " + str(node) + " is " + str(self._bf_dist[node])
+            # return "Distance from " + str(self._root) + " to " + str(node) + " is " + str(self._bf_dist[node])
             return (self._bf_dist[node], self._bf_dist[node])
 
     def bellmanford_get_path(self, node):
@@ -254,5 +252,3 @@ class ShortestPathGraph(Graph):
             print("Running Bellman-Ford Algorithm")
             self._bellmanford()
         return list(map(lambda x: (x[1], x[0]), self._bf_prev.items()))
-
-

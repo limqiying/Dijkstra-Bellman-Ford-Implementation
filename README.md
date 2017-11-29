@@ -74,9 +74,11 @@ graph.bellman_get_tree(3)
 ```
 We will obtain the entire edge set as a list of tuples specifying the shortest path tree as computed by BellmanFord's Algorithm.
 
-### Some Caveats
+# Testing
 
+Since we have two types of graphs -- one with negative edges, and one without negative edges we needed to conduct two types of tests, `NonNegativeTest` and the `NegativeTest`.
 
+To test the correctness, the test first computes the shortest path in each of these graphs with the brute force method.
+It then checks that the result computed by our implementation of our shortest path algorithms is equal to the brute-force result for each graph generated.
 
-
-
+For `NegativeTest`, we have to test additionally if our Bellman-Ford algorithm correctly detects a negative cycle. We do this by verifying that the path it outputs indeed contains a negative cycle.
