@@ -1,21 +1,25 @@
 """
-Tools for testing
+Tools used to test our graphs in both negative and non-negative edge graphs.
+Author: Qi Ying Lim
 """
+
+from sys import maxsize
+
+INF = maxsize
 
 
 class TestTools:
-
     @staticmethod
     def brute_force_result(g, node):
         """
-        computes the shortest distance from graph at index to the specified node using brute force
+        computes the shortest distance, and the shortest path from graph at index to specified node using brute force
         """
         if node not in g.get_nodes():
             return "node " + str(node) + " does not exist."
         else:
             paths = TestTools.find_paths(g, g.get_root(), node)
             if len(paths) == 0:
-                return "There is no path from root to this node"
+                return 0, INF
             costs = []
             for path in paths:
                 cost = sum([g.get_edge_cost(path[i], path[i + 1]) for i in range(len(path) - 1)])
@@ -28,6 +32,7 @@ class TestTools:
     def find_paths(g, start_node, end_node, path=None):
         """
         Code algorithm taken from https://stackoverflow.com/questions/2606018/path-between-two-nodes
+        Recursive algorithm to find all the paths from the start and end nodes
         """
         if path is None:
             path = []
