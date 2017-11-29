@@ -84,6 +84,12 @@ class Graph:
     def in_graph(self, node):
         return node in self.get_nodes()
 
+    def get_num_nodes(self):
+        return len(self.get_nodes())
+
+    def get_num_edges(self):
+        return len(self._cost)
+
     def __repr__(self):
         return str(dict(self._graph))
 
@@ -242,3 +248,4 @@ class ShortestPathGraph(Graph):
             print("Running Bellman-Ford Algorithm")
             self._bellmanford()
         return list(map(lambda x: (x[1], x[0]), self._bf_prev.items()))
+
