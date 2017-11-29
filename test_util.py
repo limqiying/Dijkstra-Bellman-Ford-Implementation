@@ -106,11 +106,14 @@ class TestTools:
 
                 if algorithm == "D":
                     alg_start = time()
-                    graph.dijkstra_get_dist(node, numerical=True)
+                    graph.dijkstra_get_dist(node)
                     alg_end = time()
                 else:
                     alg_start = time()
+
                     graph.dijkstra_get_dist(node)
+                    graph.bellmanford_get_dist_get_dist(node)
+
                     alg_end = time()
 
                 brute_time = brute_end - brute_start
