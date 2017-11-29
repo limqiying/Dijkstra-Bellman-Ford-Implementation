@@ -46,6 +46,7 @@ class NonNegativeTest:
             return "Index out of range"
         return self._random_graphs[index]
 
+<<<<<<< HEAD
     def correctness_test(self):
         """
         Runs test on all the randomly generated graphs.
@@ -74,3 +75,7 @@ test.correctness_test()
 test = NonNegativeTest(1)
 g = test.get_graph()
 
+=======
+    def run_correctness(self):
+        TestTools.correctness_test(self._random_graphs)
+>>>>>>> 35e170b2ed458e9aa9347bbddcee079a40bb1137

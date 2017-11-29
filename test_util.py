@@ -4,6 +4,7 @@ Author: Qi Ying Lim
 """
 
 from sys import maxsize
+from random import choice
 
 INF = maxsize
 
@@ -46,3 +47,26 @@ class TestTools:
                 new_paths = TestTools.find_paths(g, node, end_node, path)
                 paths.extend(new_paths)
         return paths
+
+    @staticmethod
+    def correctness_test(graph_list):
+        """
+        Runs test on all the randomly generated graphs.
+        If there is an error, this will be raised by the assertion.
+        Otherwise, a simple "test passed" will be created.
+        This test only checks that the distance computed by the brute force method is equal to ths distance computed
+        by Dijkstra's algorithm.
+        This avoids the problem where there might be two paths that have the same smallest distances.
+        """
+        test_num = 1  # counter for the number of tests
+        for graph in graph_list:
+            try:
+                node = choice(list(graph.get_nodes()))  # randomly chooses some node in the node list
+            except IndexError:
+                print('graph has no nodes')
+            else:
+                (brute_path, brute_dist) = TestTools.brute_force_result(graph, node)
+                d_dist = graph.dijkstra_get_dist(node, numerical=True)
+                assert brute_dist == d_dist, "brute distance is " + str(brute_dist) + " while d computed " + str(d_dist)
+                print("Test " + str(test_num) + " passed.")
+                test_num += 1
