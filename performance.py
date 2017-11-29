@@ -26,10 +26,9 @@ class PerformanceTest:
         x = [(n * log(n, 2) + m) for n, m in zip(nodes, edges)]
 
         if brute_force_show:
-            nodes, edges, y2 = zip(*self._d_data)
+            nodes, edges, y2 = zip(*self._brute_data)
             x2 = [(n * log(n, 2) + m) for n, m in zip(nodes, edges)]
             plt.plot(x2, y2, 'bs', label='Brute Force')
-
         plt.plot(x, y, 'ro', label='Dijkstra')
 
         plt.xlabel("nlogn + m")
