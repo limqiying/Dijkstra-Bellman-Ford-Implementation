@@ -32,7 +32,6 @@ class TestTools:
         if path is None:
             path = []
         path = path + [start_node]
-
         if start_node == end_node:
             return [path]
 
