@@ -6,11 +6,9 @@ Authors: Qi Ying Lim, Jiacheng Xu
 """
 
 from collections import defaultdict
-from sys import maxsize
 import heapq
 
-INF = maxsize  # infinity
-
+INF = 9999  # infinity
 
 class Graph:
     """

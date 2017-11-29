@@ -72,30 +72,9 @@ class NonNegativeTest:
 
     def get_performance_data(self):
         """
-        returns the list of tuples of (n, m, time), where n is the number of nodes, m the number of edges, and
-        time is the time taken to run Dijkstra on the graph at this index
+        Gets two lists of tuples of (n, m, time), where n is the number of nodes, m the number of edges, and
+        time is the time taken to find the shortest paths in the graph.
+        First returned list is the time taken by Brute-Force
+        Second returned list is the time taken by Dijkstra
         """
-        brute_data = []
-        d_data = []
-        for graph in self._random_graphs:
-            try:
-                node = choice(list(graph.get_nodes()))  # randomly chooses some node in the node list
-            except IndexError:
-                print('graph has no nodes')
-            else:
-                n = graph.get_num_nodes()
-                m = graph.get_num_edges()
-                brute_start = time()
-                TestTools.brute_force_result(graph, node)
-                brute_end = time()
-                d_start = time()
-                graph.dijkstra_get_dist(node, numerical=True)
-                d_end = time()
-                brute_time = brute_end - brute_start
-                d_time = d_end - d_start
-                brute_data.append((n, m, brute_time))
-                d_data.append((n, m, d_time))
-        return brute_data, d_data
-
-test = NonNegativeTest(10)
-print(test.get_performance_data())
+        return TestTools.get_performance(self._random_graphs, "D")

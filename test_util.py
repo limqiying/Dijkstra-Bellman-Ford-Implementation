@@ -3,10 +3,10 @@ Tools used to test our graphs in both negative and non-negative edge graphs.
 Author: Qi Ying Lim
 """
 
-from sys import maxsize
 from random import choice
+from time import time
 
-INF = maxsize
+INF = 9999
 
 
 class TestTools:
@@ -74,3 +74,46 @@ class TestTools:
                     assert brute_dist == d_dist[0], "brute distance is " + str(brute_dist) + " while d computed " + str(d_dist[0])
                     print("Test " + str(test_num) + " passed.")
                 test_num += 1
+
+    @staticmethod
+    def get_performance(graph_list, algorithm):
+        """
+        param: algorithm if "D", runs Dijkstra
+            if "B", runs, Bellman-Ford
+        returns the two lists of tuples of (n, m, time), where n is the number of nodes, m the number of edges, and
+        time is the time taken to find the shortest paths in the graph.
+        First returned list is the time taken by Bellman-Ford
+        Second returned list is the time taken by Dijkstra
+        """
+        brute_data = []
+        alg_data = []
+        for graph in graph_list:
+            try:
+                node = choice(list(graph.get_nodes()))  # randomly chooses some node in the node list
+            except IndexError:
+                print('graph has no nodes')
+            else:
+                n = graph.get_num_nodes()
+                m = graph.get_num_edges()
+                brute_start = time()
+                TestTools.brute_force_result(graph, node)
+                brute_end = time()
+
+                if algorithm == "D":
+                    alg_start = time()
+                    graph.dijkstra_get_dist(node, numerical=True)
+                    alg_end = time()
+                else:
+                    alg_start = time()
+                    graph.dijkstra_get_dist(node, numerical=True)
+                    alg_end = time()
+
+                brute_time = brute_end - brute_start
+                d_time = alg_end - alg_start
+
+                brute_data.append((n, m, brute_time))
+                alg_data.append((n, m, d_time))
+
+        return brute_data, alg_data
+
+

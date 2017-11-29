@@ -13,7 +13,7 @@ def main():
     print("***********************************\n")
     print("Generating 10 Graphs with negative edge weights. \n")
     non_neg = NegativeTest(10)
-    non_neg.run_correctness()
+    non_neg.run_correctness_dij()
     print("Negative test complete.")
 
 

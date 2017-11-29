@@ -69,10 +69,7 @@ class NegativeTest:
 
     def run_correctness_pos(self):
         TestTools.correctness_test_2(self._random_pos_graphs)
-    def run_correctness_neg(self):
-    	TestTools.correctness_test_2(self._random_neg_graphs)
 
-test = NegativeTest(number_of_tests=10)
-test.run_correctness_pos()
-test.run_correctness_neg()
+    def run_correctness_neg(self):
+        TestTools.correctness_test_2(self._random_neg_graphs)
 
