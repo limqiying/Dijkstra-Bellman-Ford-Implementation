@@ -74,9 +74,17 @@ graph.bellman_get_tree(3)
 ```
 We will obtain the entire edge set as a list of tuples specifying the shortest path tree as computed by BellmanFord's Algorithm.
 
-### Some Caveats
+### Testing
+
+We also added an easy way to run your own test on our implementation. Since we have two types of graphs -- one with negative edges, and one without negative edges, we have developed two different types of tests, `NonNegativeTest` and the `NegativeTest`.
+
+If we want to run a `NonNegativeTest` on 100 randomly generated graphs, it is simply a matter of calling 
+
+```python
+test = NonNegativeTest(100)
+```
+This test will first randomly generate 100 graphs from 5 to 15 nodes. Then running `test.run_correctness()' will compute the shortest path in each of these graphs with the brute force method.
+It then checks that the result computed by our implementation of Dijkstra's algorithm is equal to the brute-force result for each graph generated.
 
 
-
-
-
+The testing is similar for `NegativeTest`, except when we check for correctness, if our Bellman-Ford algorithm detects a negative cycle, we will verify that the path it outputs indeed contains a negative cycle.

@@ -2,12 +2,12 @@ from graph import *
 from test_util import *
 from random import randrange, sample, gauss
 
+
 class NegativeTest:
     def __init__(self, number_of_tests=100):
         self._test_num = number_of_tests
         self._random_pos_graphs = self._generate_pos()
-        self._random_neg_graphs= self._generate_neg()
-
+        self._random_neg_graphs = self._generate_neg()
 
     def _generate_pos(self):
         """
@@ -33,6 +33,7 @@ class NegativeTest:
             graph_list.append(g)
 
         return graph_list
+
     def _generate_neg(self):
         """
         returns a list of randomly-generated graphs. The length of this list is specified at
@@ -58,7 +59,6 @@ class NegativeTest:
 
         return graph_list
 
-
     def get_graph(self, index):
         """
         returns the graph from the list of random graphs, specified by the index
@@ -66,15 +66,7 @@ class NegativeTest:
         if index >= len(self._random_graphs):
             return "Index out of range"
         return self._random_graphs[index]
+
     def run_correctness(self):
         TestTools.correctness_test_2(self._random_neg_graphs)
-
-test = NegativeTest(number_of_tests=10)
-test.run_correctness()
-
-
-
-
-
-
 
