@@ -1,9 +1,11 @@
 """
 This is a test class that allows us to randomly create graph objects to test the correctness of our implementation
+This test is specifically for testing graphs containing only non-negative edges
+Author: Qi Ying Lim
 """
 from graph import *
 from test_util import *
-from random import randrange, sample, gauss
+from random import randrange, sample, choice
 
 
 class NonNegativeTest:
@@ -44,11 +46,28 @@ class NonNegativeTest:
             return "Index out of range"
         return self._random_graphs[index]
 
+    def correctness_test(self):
+        """
+        Runs test on all the randomly generated graphs.
+        If there is an error, this will be raised by the assertion.
+        Otherwise, a simple "test passed" will be created.
+        This test only checks that the distance computed by the brute force method is equal to ths distance computed
+        by Dijkstra's algorithm.
+        This avoids the problem where there might be two paths that have the same smallest distances.
+        """
+        test_num = 1  # counter for the number of tests
+        for graph in self._random_graphs:
+            try:
+                node = choice(list(graph.get_nodes()))  # randomly chooses some node in the node list
+            except IndexError:
+                print('graph has no nodes')
+            else:
+                (brute_path, brute_dist) = TestTools.brute_force_result(graph, node)
+                d_dist = graph.dijkstra_get_dist(node, numerical=True)
+                assert brute_dist == d_dist, "brute distance is " + str(brute_dist) + " while d computed " + str(d_dist)
+                print("Test " + str(test_num) + " passed.")
+                test_num += 1
 
 
-test = NonNegativeTest(1)
-graph = test.get_graph(0)
-root = graph.get_root()
-print(graph)
-print(graph.dijkstra_get_dist(3))
-print(NonNegativeTest.brute_force_test(graph, 3))
+test = NonNegativeTest(100)
+test.correctness_test()

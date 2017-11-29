@@ -139,9 +139,8 @@ class ShortestPathGraph(Graph):
         returns the value dist(root, node)
         """
         if not self._dijkstra_computed:
-            print("Running Dijkstra Algorithm")
             self._dijkstra()
-        if self._d_dist[node] == INF:
+        if self._d_dist[node] == INF and not numerical:
             return "There is no path from " + str(self._root) + " to " + str(node) + "."
         elif numerical:
             return self._d_dist[node]
@@ -153,7 +152,6 @@ class ShortestPathGraph(Graph):
         returns the shortest path from node to root
         """
         if not self._dijkstra_computed:
-            print("Running Dijkstra Algorithm")
             self._dijkstra()
         if self._d_dist[node] == INF:
             return "There is no path from " + str(self._root) + " to " + str(node) + "."
@@ -171,7 +169,6 @@ class ShortestPathGraph(Graph):
         returns the edge set representing the shortest path tree obtained by running Dijkstra
         """
         if not self._dijkstra_computed:
-            print("Running Dijkstra Algorithm")
             self._dijkstra()
         return list(map(lambda x: (x[1], x[0]), self._d_prev.items()))
 
