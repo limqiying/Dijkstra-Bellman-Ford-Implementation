@@ -38,7 +38,7 @@ class NonNegativeTest:
 
         return graph_list
 
-    def get_graph(self, index):
+    def get_graph(self, index=0):
         """
         returns the graph from the list of random graphs, specified by the index
         """
@@ -69,5 +69,10 @@ class NonNegativeTest:
                 test_num += 1
 
 
+<<<<<<< HEAD
 test = NonNegativeTest(100)
 test.correctness_test()
+=======
+test = NonNegativeTest(1)
+g = test.get_graph()
+>>>>>>> cca1e81b091c0811af1fde37fb2ed62a0c7662ed
