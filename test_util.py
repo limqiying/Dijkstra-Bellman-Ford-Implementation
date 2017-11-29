@@ -49,9 +49,9 @@ class TestTools:
         return paths
 
     @staticmethod
-    def correctness_test(graph_list):
+    def correctness_test_1(graph_list):
         """
-        Runs test on all the randomly generated graphs.
+        Runs test on all the randomly generated graphs, with non-negative edges
         If there is an error, this will be raised by the assertion.
         Otherwise, a simple "test passed" will be created.
         This test only checks that the distance computed by the brute force method is equal to ths distance computed
