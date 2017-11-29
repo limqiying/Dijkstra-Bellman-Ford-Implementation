@@ -111,6 +111,8 @@ class ShortestPathGraph(Graph):
         # stores the parent nodes of each node in the shortest path BF tree
         self._bf_prev = defaultdict()
         self._bf_prev[root] = None
+        # time it took to run Dijkstra algorithm on this graph
+        self._d_time = 0
 
     def get_root(self):
         return self._root
@@ -177,6 +179,7 @@ class ShortestPathGraph(Graph):
         if not self._dijkstra_computed:
             self._dijkstra()
         return list(map(lambda x: (x[1], x[0]), self._d_prev.items()))
+
 
     def _bellmanford(self):
 
@@ -248,4 +251,5 @@ class ShortestPathGraph(Graph):
             print("Running Bellman-Ford Algorithm")
             self._bellmanford()
         return list(map(lambda x: (x[1], x[0]), self._bf_prev.items()))
+
 
