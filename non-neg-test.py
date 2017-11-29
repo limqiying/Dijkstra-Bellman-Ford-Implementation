@@ -69,10 +69,8 @@ class NonNegativeTest:
                 test_num += 1
 
 
-<<<<<<< HEAD
 test = NonNegativeTest(100)
 test.correctness_test()
-=======
 test = NonNegativeTest(1)
 g = test.get_graph()
->>>>>>> cca1e81b091c0811af1fde37fb2ed62a0c7662ed
+
