@@ -84,13 +84,11 @@ class Graph:
         else:
             raise KeyError("No such node (" + str(node) + ") in graph")
 
-<<<<<<< HEAD
 
-=======
+
     def in_graph(self, node):
         return node in self.get_nodes()
->>>>>>> origin/master
-
+    
     def __repr__(self):
         return str(dict(self._graph))
 
