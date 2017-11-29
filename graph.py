@@ -83,11 +83,7 @@ class Graph:
 
     def in_graph(self, node):
         return node in self.get_nodes()
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> c4c540adb844e4bf1098ae6fa67d6a700044a3bd
     def __repr__(self):
         return str(dict(self._graph))
 
@@ -124,8 +120,6 @@ class ShortestPathGraph(Graph):
         self._dijkstra_computed = True
         # making the priority queue
         d = [(INF, node) if node != self._root else (0, node) for node in self.get_nodes()]
-        visisted = set()
-        visited.add(self._root)
         self._d_dist[self._root] = 0  # setting the distance of the root to self as 0
         # loop through all the vertices
         for i in range(len(self.get_nodes())):
@@ -232,7 +226,6 @@ class ShortestPathGraph(Graph):
             if self._bellmanford() == 0:
                 return "Negative cycle"
 
-<<<<<<< HEAD
         if self._bf_dist[node] == INF:
             return "There is no path from " + str(self._root) + " to " + str(node) + "."
         else:
@@ -252,36 +245,3 @@ class ShortestPathGraph(Graph):
             print("Running Bellman-Ford Algorithm")
             self._bellmanford()
         return list(map(lambda x: (x[1], x[0]), self._bf_prev.items()))
-
-
-graph = ShortestPathGraph(0)
-graph.set_nodes(range(5))
-graph.set_edges([(0, 1, 1), (0, 2, 5), (2, 3, -5), (1, 3, 1), (3,4,1)])
-
-
-#print(graph.dijkstra_get_dist(3))
-print(graph.bellmanford_get_tree())
-
-=======
-graph = ShortestPathGraph(0)
-graph.set_nodes(range(4))
-# graph.set_edges([(0, 2, 1), (0, 3, 3), (2, 4, 6), (3, 1, 7), (1, 5, 3), (1, 9, 5), (2, 5, 3), (2, 4, 1), (3, 4, 1)])
-graph.set_edges([(0, 2, 1), (0, 1, -10), (1, 3, -10)])
-
-# graph.bellmanford_get_dist(3)
-#
-print(graph.dijkstra_get_dist(2))
-# print(graph.bellmanford_get_dist(3))
-#
-# print('****')
-# print(graph.dijkstra_get_dist(1))
-# print(graph.bellmanford_get_dist(1))
-# print('****')
-#
-# print(graph.dijkstra_get_dist(7))
-# print(graph.bellmanford_get_dist(7))
-# print('****')
-#
-# print(graph.dijkstra_get_dist(5))
-# print(graph.bellmanford_get_dist(5))
->>>>>>> c4c540adb844e4bf1098ae6fa67d6a700044a3bd
