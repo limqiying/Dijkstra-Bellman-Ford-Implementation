@@ -81,12 +81,8 @@ class Graph:
         else:
             raise KeyError("No such node (" + str(node) + ") in graph")
 
-<<<<<<< HEAD
-
-=======
     def in_graph(self, node):
         return node in self.get_nodes()
->>>>>>> origin/master
 
     def __repr__(self):
         return str(dict(self._graph))
@@ -184,8 +180,7 @@ class ShortestPathGraph(Graph):
     def _bellmanford(self):
 
         """
-        This is the implementation of bellman_ford algorithm we learned during the class. 
-<<<<<<< HEAD
+        This is the implementation of bellman_ford algorithm we learned during the class.
         """
         n = len(self.get_nodes())
         self._bellman_ford_computed= True
