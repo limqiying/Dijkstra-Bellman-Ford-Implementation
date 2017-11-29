@@ -58,11 +58,11 @@ class Graph:
                 self._cost[(v, w)] = min(c, self._cost[(v, w)])
             else:
                 raise KeyError('No such node ' + str(v) + " or " + str(w) + " in graph")
-    
+
     def get_edge_cost(self, u, v):
         return self._cost[(u, v)]
 
-    def get_out_neighbours(self, node, k= 0):
+    def get_out_neighbours(self, node, k=0):
         """
         :param node: the Node in the graph
         :return: a list of the outgoing neighbours from the node
@@ -75,7 +75,7 @@ class Graph:
         else:
             return
 
-    def get_in_neighbours(self,node):
+    def get_in_neighbours(self, node):
         if node in self.get_nodes():
             return self._inEdges[node]
         else:
@@ -89,12 +89,11 @@ class Graph:
 
 
 class ShortestPathGraph(Graph):
-
     def __init__(self, root):
         Graph.__init__(self)
         self._root = root
         self.set_nodes([root])
-        self._dijkstra_computed = False     # prevents unnecessary re-computation of distances
+        self._dijkstra_computed = False  # prevents unnecessary re-computation of distances
         self._bellman_ford_computed = False
         # stores distances from root as returned by the dijkstra algorithm
         self._d_dist = defaultdict(lambda: INF)
@@ -176,76 +175,66 @@ class ShortestPathGraph(Graph):
             self._dijkstra()
         return list(map(lambda x: (x[1], x[0]), self._d_prev.items()))
 
-
     def _bellmanford(self):
 
         """
         This is the implementation of bellman_ford algorithm we learned during the class.
         """
         n = len(self.get_nodes())
-        self._bellman_ford_computed= True
-        d = [[INF] * n] * n
-        for i in range(n):
-            if i != self._root:
-                d[i][0] = INF
+        self._bellman_ford_computed = True
+        d = [[INF] * n for _ in range(n)]
         d[self._root][0] = 0
 
-        for k in range(1,n):
-            for i in range(n): # go through all nodes
-                d[i][k] = d[i][k-1]
-                for u in self.get_in_neighbours(i):
-                    if d[i][k] < d[u][k-1] +  self._cost[(u,i)]:
-                        d[i][k] = d[i][k]
-                    else:
-                        d[i][k] = d[u][k-1] +  self._cost[(u,i)]
 
-        #(One more iteration to check the negative cycle)
+
+        for k in range(1, n):
+            for i in range(n):  # go through all nodes
+                d[i][k] = d[i][k - 1]
+                for u in self.get_in_neighbours(i):
+                    if d[i][k] < d[u][k - 1] + self._cost[(u, i)]:
+                        continue
+                    else:
+                        d[i][k] = d[u][k - 1] + self._cost[(u, i)]
+
+        # (One more iteration to check the negative cycle)
         for i in range(n):
             for u in self.get_in_neighbours(i):
-                if (d[i][n-1] > d[u][n-1] +  self._cost[(u,i)]):
-                    print "Negative Cycle"
+                if d[i][n - 1] > d[u][n - 1] + self._cost[(u, i)]:
+                    print("Negative Cycle")
                     return 0
 
         # Assign final distance to each node
         for node in self.get_nodes():
-            self._bf_dist[node] = d[node][n-1]
+            self._bf_dist[node] = d[node][n - 1]
         return 1
 
     def bellmanford_get_dist(self, node):
         if not self._bellman_ford_computed:
             if self._bellmanford() == 0:
                 return -INF
-
         if self._d_dist[node] == INF:
             return "There is no path from " + str(self._root) + " to " + str(node) + "."
         else:
-            return self._bf_dist[node] 
+            return self._bf_dist[node]
 
 
-
-
-graph = ShortestPathGraph(2)
+graph = ShortestPathGraph(0)
 graph.set_nodes(range(10))
 graph.set_edges([(0, 2, 1), (0, 3, 3), (2, 4, 6), (3, 1, 7), (1, 5, 3), (1, 9, 5), (2, 5, 3), (2, 4, 1), (3, 4, 1)])
 
 graph.bellmanford_get_dist(3)
 
+print(graph.dijkstra_get_dist(3))
+print(graph.bellmanford_get_dist(3))
 
-# print graph.dijkstra_get_dist(3)
-# print graph.bellmanford_get_dist(3)
+print('****')
+print(graph.dijkstra_get_dist(1))
+print(graph.bellmanford_get_dist(1))
+print('****')
 
-# print '****'
-# print graph.dijkstra_get_dist(1)
-# print graph.bellmanford_get_dist(1)
-# print '****'
+print(graph.dijkstra_get_dist(7))
+print(graph.bellmanford_get_dist(7))
+print('****')
 
-# print graph.dijkstra_get_dist(7)
-# print graph.bellmanford_get_dist(7)
-# print '****'
-
-# print graph.dijkstra_get_dist(5)
-# print graph.bellmanford_get_dist(5)
-
-
-
-
+print(graph.dijkstra_get_dist(5))
+print(graph.bellmanford_get_dist(5))
