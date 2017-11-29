@@ -179,7 +179,7 @@ class ShortestPathGraph(Graph):
 
         """
         This is the implementation of bellman_ford algorithm we learned during the class. 
-        I used two D array
+        I used 2d array of the psedo-code. 
         """
         n = len(self.get_nodes())
         self._bellman_ford_computed = True
@@ -193,8 +193,8 @@ class ShortestPathGraph(Graph):
                     if d[i][k] < d[u][k - 1] + self._cost[(u, i)]:  # if current is optimum, do nothing
                         continue
                     else:
-                        d[i][k] = d[u][k - 1] + self._cost[(u, i)] # modify the current distance and parent node
-                        self._bf_prev[i] = u
+                        d[i][k] = d[u][k - 1] + self._cost[(u, i)] # modify the current distance 
+                        self._bf_prev[i] = u #switch the parent node
 
         # (One more iteration to check the negative cycle)
         for i in range(n):
