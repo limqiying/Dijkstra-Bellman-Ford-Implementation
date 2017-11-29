@@ -10,6 +10,11 @@ INF = 9999
 
 
 class TestTools:
+
+
+
+    
+
     @staticmethod
     def brute_force_result(g, node):
         """
@@ -105,7 +110,10 @@ class TestTools:
                     alg_end = time()
                 else:
                     alg_start = time()
+
+                    graph.dijkstra_get_dist(node)
                     graph.bellmanford_get_dist_get_dist(node)
+
                     alg_end = time()
 
                 brute_time = brute_end - brute_start
@@ -115,5 +123,4 @@ class TestTools:
                 alg_data.append((n, m, d_time))
 
         return brute_data, alg_data
-
-
+   

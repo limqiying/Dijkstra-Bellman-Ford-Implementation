@@ -74,6 +74,9 @@ graph.bellman_get_tree(3)
 ```
 We will obtain the entire edge set as a list of tuples specifying the shortest path tree as computed by BellmanFord's Algorithm.
 
+Caveats for BellmanFord's Algorithm: When there is a negative cycle in the graph, the brutal force will still output some distance while the BellmanFord output one node that contained in one negative cycle. So far the best way to check which one is correct is to print the graph and see the cycle around that node. 
+
+
 # Testing
 
 Since we have two types of graphs -- one with negative edges, and one without negative edges we needed to conduct two types of tests, `NonNegativeTest` and the `NegativeTest`.
