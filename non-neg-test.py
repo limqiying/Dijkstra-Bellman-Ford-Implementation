@@ -91,12 +91,3 @@ class NonNegativeTest:
                 d_data.append((n, m, d_time))
         return brute_data, d_data
 
-
-test = NonNegativeTest(10)
-b, d = test.get_performance_data()
-
-for item in b:
-    print(item)
-
-for item in d:
-    print(item)
