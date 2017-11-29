@@ -2,7 +2,7 @@
 Part 1 of Final Project for CSCI3383 (Algorithms) at Boston College:
 * Instructor: Lewis Tseng
 * Semester: Fall 
-* Team Members: Tia Lim, Jiacheng Xu
+* Team Members: Tia Lim, Jiacheng Xu, Zeming Lin
 
 ## Introduction
 Given any graph and some vertex, the Dijkstra's algorithm and the Bellman-Ford algorithm are used to determine, the shortest distances from s to all other nodes in G. While Dijkstra's algorithm has better time-complexity, it does not work when G contains negative edge-weights. Bellman-Ford has a higher time-complexity but is tolerant to negative edge-weights.
@@ -53,3 +53,30 @@ which will return a list representing the path from `0` to `3`. Finally, calling
 graph.dijkstra_get_tree()
 ```
 We will obtain the entire edge set as a list of tuples specifying the shortest path tree as computed by Dijkstra's Algorithm.
+
+### BellmanFord's Algorithm
+BellmanFord Algorithm is designed to solve the negative edges issue. In addition, when there are negative cycles in the graph, BellmanFord Algorithm going to detect one of them and output negative cycle. The actual implementation function of the pseudo-code we covered in class is in file graph.py and the function name is: 
+```python
+graph._bellmanford()
+```
+This is a private function which return n+1 (n is number of nodes in graph) when there is a path between source node and given node, and return the first node it detect that within one negative cycle when there is negative cycle. In order to use this function, you can use following funtions:
+```python
+graph.bellmanfor_get_dist(3)
+```
+For example, function above return shortest distance from node 3 to source node.
+```python
+graph.bellman_get_path(3)
+```
+Function above return the shortes path from source node to node 3
+
+```python
+graph.bellman_get_tree(3)
+```
+We will obtain the entire edge set as a list of tuples specifying the shortest path tree as computed by BellmanFord's Algorithm.
+
+### Some Caveats
+
+
+
+
+

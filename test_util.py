@@ -70,3 +70,29 @@ class TestTools:
                 assert brute_dist == d_dist, "brute distance is " + str(brute_dist) + " while d computed " + str(d_dist)
                 print("Test " + str(test_num) + " passed.")
                 test_num += 1
+    @staticmethod
+    def correctness_test_2(graph_list):
+        """
+        Runs test on all the randomly generated graphs, with both and postive negative edges
+        If there is an error, this will be raised by the assertion.
+        Otherwise, a simple "test passed" will be created.
+        This test only checks that the distance computed by the brute force method is equal to ths distance computed
+        by bellman's algorithm.
+        This avoids the problem where there might be two paths that have the same smallest distances.
+        """
+        test_num = 1  # counter for the number of tests
+        for graph in graph_list:
+            try:
+                node = choice(list(graph.get_nodes()))  # randomly chooses some node in the node list
+            except IndexError:
+                print('graph has no nodes')
+            else:
+                (brute_path, brute_dist) = TestTools.brute_force_result(graph, node)
+                d_dist = graph.bellmanford_get_dist(node)
+                if d_dist[0] == -INF:
+                    print("Negative cycle occur at node " + str(d_dist[1]))
+                    print("Test " + str(test_num) + " passed.")
+                else:
+                    assert brute_dist == d_dist[0], "brute distance is " + str(brute_dist) + " while d computed " + str(d_dist[0])
+                    print("Test " + str(test_num) + " passed.")
+                test_num += 1

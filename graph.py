@@ -203,22 +203,25 @@ class ShortestPathGraph(Graph):
         for i in range(n):
             for u in self.get_in_neighbours(i):
                 if d[i][n - 1] > d[u][n - 1] + self._cost[(u, i)]:
-                    print("Negative Cycle")
-                    return 0
+                    #print("Negative Cycle")
+                    return i
 
         # Assign final distance to each node
         for node in self.get_nodes():
             self._bf_dist[node] = d[node][n - 1]
-        return 1
+        return n +1
 
     def bellmanford_get_dist(self, node):
+        result = 0
         if not self._bellman_ford_computed:
-            if self._bellmanford() == 0:
-                return -INF
-        if self._d_dist[node] == INF:
-            return "There is no path from " + str(self._root) + " to " + str(node) + "."
+            result = self._bellmanford()
+        if result != len(self.get_nodes())+1:
+            return (-INF, result) 
+        if self._bf_dist[node] == INF:
+            return (INF, INF)
         else:
-            return self._bf_dist[node]
+            #return "Distance from " + str(self._root) + " to " + str(node) + " is " + str(self._bf_dist[node])
+            return (self._bf_dist[node], self._bf_dist[node])
 
     def bellmanford_get_path(self, node):
         """

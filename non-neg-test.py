@@ -47,8 +47,5 @@ class NonNegativeTest:
         return self._random_graphs[index]
 
     def run_correctness(self):
-        TestTools.correctness_test(self._random_graphs)
-<<<<<<< HEAD
-=======
+        TestTools.correctness_test1(self._random_graphs)
 
->>>>>>> 6a2cbfe213d727b24299187b2bdf31b60a2d42b0

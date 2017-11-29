@@ -6,7 +6,7 @@ class NegativeTest:
     def __init__(self, number_of_tests=100):
         self._test_num = number_of_tests
         self._random_pos_graphs = self._generate_pos()
-        self.random_neg_graphs= self._generate_neg()
+        self._random_neg_graphs= self._generate_neg()
 
 
     def _generate_pos(self):
@@ -49,7 +49,7 @@ class NegativeTest:
             for node in node_list:
                 num_neighbours = randrange(5)
                 neighbours = sample(node_list, num_neighbours)  # the neighbours of node
-                costs = [randrange(-15, 15) for _ in range(num_neighbours)]
+                costs = [randrange(-3, 10) for _ in range(num_neighbours)]
                 n = [node] * num_neighbours
                 edge_list = zip(n, neighbours, costs)
                 g.set_edges(edge_list)
@@ -66,4 +66,15 @@ class NegativeTest:
         if index >= len(self._random_graphs):
             return "Index out of range"
         return self._random_graphs[index]
+    def run_correctness(self):
+        TestTools.correctness_test_2(self._random_neg_graphs)
+
+test = NegativeTest(number_of_tests=10)
+test.run_correctness()
+
+
+
+
+
+
 
