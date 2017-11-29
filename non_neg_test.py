@@ -6,7 +6,7 @@ Author: Qi Ying Lim
 from graph import *
 from test_util import *
 from random import randrange, sample, choice
-import timeit
+from time import time
 
 
 class NonNegativeTest:
@@ -86,9 +86,17 @@ class NonNegativeTest:
             else:
                 n = graph.get_num_nodes()
                 m = graph.get_num_edges()
-                brute_time = timeit.timeit(TestTools.brute_force_result(graph, node))
-                d_time = timeit.timeit(graph.dijkstra_get_dist(node, numerical=True))
+                brute_start = time()
+                TestTools.brute_force_result(graph, node)
+                brute_end = time()
+                d_start = time()
+                graph.dijkstra_get_dist(node, numerical=True)
+                d_end = time()
+                brute_time = brute_end - brute_start
+                d_time = d_end - d_start
                 brute_data.append((n, m, brute_time))
                 d_data.append((n, m, d_time))
         return brute_data, d_data
 
+test = NonNegativeTest(10)
+print(test.get_performance_data())
