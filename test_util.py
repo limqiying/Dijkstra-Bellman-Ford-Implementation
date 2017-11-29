@@ -67,11 +67,11 @@ class TestTools:
             else:
                 (brute_path, brute_dist) = TestTools.brute_force_result(graph, node)
                 d_dist = graph.bellmanford_get_dist(node)
-                if d_dist[0] == -INF:
-                    print("Negative cycle occur at node " + str(d_dist[1]))
-                    print("Test " + str(test_num) + " passed.")
+                if d_dist[1] == -INF:
+                    print("Negative cycle detected at node :" + str(d_dist[0]) + "Test"  + str(test_num) + " passed." )
+                    # One can check by printing the graph. 
                 else:
-                    assert brute_dist == d_dist[0], "brute distance is " + str(brute_dist) + " while d computed " + str(d_dist[0])
+                    assert brute_dist == d_dist[0], "brute distance is " + str(brute_dist) + " while bf computed " + str(d_dist[0])
                     print("Test " + str(test_num) + " passed.")
                 test_num += 1
 

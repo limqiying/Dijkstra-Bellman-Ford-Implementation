@@ -10,6 +10,7 @@ import heapq
 
 INF = 9999  # infinity
 
+
 class Graph:
     """
     creates a directed object, whose information is stored in the form of a dictionary, whose key is the vertex,
@@ -181,7 +182,7 @@ class ShortestPathGraph(Graph):
     def _bellmanford(self):
         """
         This is the implementation of bellman_ford algorithm we learned during the class. 
-        I used 2d array of the psedo-code. 
+        I used 2d array of the pseudo-code. 
         """
         n = len(self.get_nodes())
         self._bellman_ford_computed = True
@@ -192,9 +193,7 @@ class ShortestPathGraph(Graph):
             for i in range(n):  # go through all nodes
                 d[i][k] = d[i][k - 1]
                 for u in self.get_in_neighbours(i):
-                    if d[i][k] < d[u][k - 1] + self._cost[(u, i)]:  # if current is optimum, do nothing
-                        continue
-                    else:
+                    if d[i][k] > d[u][k - 1] + self._cost[(u, i)]:  
                         d[i][k] = d[u][k - 1] + self._cost[(u, i)]  # modify the current distance
                         self._bf_prev[i] = u  # switch the parent node
 
@@ -214,24 +213,33 @@ class ShortestPathGraph(Graph):
         result = 0
         if not self._bellman_ford_computed:
             result = self._bellmanford()
+
+        # if negative cycle detcted
         if result != len(self.get_nodes()) + 1:
-            return (-INF, result)
-        if self._bf_dist[node] == INF:
-            return (INF, INF)
+            #print('neg cycle detected')
+            return (result,-INF)
+
+        # if there is no path from root to node
+        if self._bf_dist[node] > (INF-10):
+            #print('there is no path ')
+            return (INF,INF)
         else:
+            #print('there is a path of length ' + str(self._bf_dist[node]))
             # return "Distance from " + str(self._root) + " to " + str(node) + " is " + str(self._bf_dist[node])
-            return (self._bf_dist[node], self._bf_dist[node])
+            return  (self._bf_dist[node],self._bf_dist[node])
 
     def bellmanford_get_path(self, node):
         """
         returns the shortest path from node to root
         """
+        result = 0
         if not self._bellman_ford_computed:
-            print("Running Bellman-Ford Algorithm")
-            if self._bellmanford() == 0:
-                return "Negative cycle"
+            #print("Running Bellman-Ford Algorithm")
+            result = self._bellmanford()
+        if self._bellmanford() != len(self.get_nodes()) + 1:
+            return "Negative cycle"
 
-        if self._bf_dist[node] == INF:
+        if self._bf_dist[node] > (INF - 10):
             return "There is no path from " + str(self._root) + " to " + str(node) + "."
         else:
             v = node
