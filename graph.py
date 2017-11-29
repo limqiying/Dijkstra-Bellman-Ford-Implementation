@@ -185,8 +185,6 @@ class ShortestPathGraph(Graph):
         d = [[INF] * n for _ in range(n)]
         d[self._root][0] = 0
 
-
-
         for k in range(1, n):
             for i in range(n):  # go through all nodes
                 d[i][k] = d[i][k - 1]
