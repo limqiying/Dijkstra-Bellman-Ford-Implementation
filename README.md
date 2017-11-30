@@ -2,7 +2,7 @@
 Part 1 of Final Project for CSCI3383 (Algorithms) at Boston College:
 * Instructor: Lewis Tseng
 * Semester: Fall 
-* Team Members: Tia Lim, Jiacheng Xu, Zeming Lin
+* Team Members: Tia Lim, Jiacheng Xu
 
 ## Introduction
 Given any graph and some vertex, the Dijkstra's algorithm and the Bellman-Ford algorithm are used to determine, the shortest distances from s to all other nodes in G. While Dijkstra's algorithm has better time-complexity, it does not work when G contains negative edge-weights. Bellman-Ford has a higher time-complexity but is tolerant to negative edge-weights.
