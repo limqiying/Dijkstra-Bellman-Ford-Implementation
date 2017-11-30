@@ -77,4 +77,4 @@ class NonNegativeTest:
         First returned list is the time taken by Brute-Force
         Second returned list is the time taken by Dijkstra
         """
-        return TestTools.get_performance(self._random_graphs, "D")
+        return TestTools.get_performance(self._random_graphs)

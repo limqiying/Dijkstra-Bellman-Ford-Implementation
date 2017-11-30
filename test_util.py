@@ -81,17 +81,17 @@ class TestTools:
                 test_num += 1
 
     @staticmethod
-    def get_performance(graph_list, algorithm):
+    def get_performance(graph_list):
         """
-        param: algorithm if "D", runs Dijkstra
-            if "B", runs, Bellman-Ford
-        returns the two lists of tuples of (n, m, time), where n is the number of nodes, m the number of edges, and
+        returns the 3 lists of tuples of (n, m, time), where n is the number of nodes, m the number of edges, and
         time is the time taken to find the shortest paths in the graph.
         First returned list is the time taken by Bellman-Ford
         Second returned list is the time taken by Dijkstra
+        Third list is the time taken by Bellman-Ford
         """
         brute_data = []
-        alg_data = []
+        d_data = []
+        bf_data = []
         for graph in graph_list:
             try:
                 node = choice(list(graph.get_nodes()))  # randomly chooses some node in the node list
@@ -104,23 +104,20 @@ class TestTools:
                 TestTools.brute_force_result(graph, node)
                 brute_end = time()
 
-                if algorithm == "D":
-                    alg_start = time()
-                    graph.dijkstra_get_dist(node)
-                    alg_end = time()
-                else:
-                    alg_start = time()
+                d_start = time()
+                graph.dijkstra_get_dist(node)
+                d_end = time()
 
-                    graph.dijkstra_get_dist(node)
-                    graph.bellmanford_get_dist_get_dist(node)
-
-                    alg_end = time()
+                bf_start = time()
+                graph.bellmanford_get_dist(node)
+                bf_end = time()
 
                 brute_time = brute_end - brute_start
-                d_time = alg_end - alg_start
+                d_time = d_end - d_start
+                bf_time = bf_end - bf_start
 
                 brute_data.append((n, m, brute_time))
-                alg_data.append((n, m, d_time))
+                d_data.append((n, m, d_time))
+                bf_data.append((n, m, bf_time))
 
-        return brute_data, alg_data
-   
+        return brute_data, d_data, bf_data

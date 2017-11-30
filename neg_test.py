@@ -72,3 +72,12 @@ class NegativeTest:
 
     def run_correctness_neg(self):
         TestTools.correctness_test_2(self._random_neg_graphs)
+
+    def get_performance_data(self):
+        """
+        Gets two lists of tuples of (n, m, time), where n is the number of nodes, m the number of edges, and
+        time is the time taken to find the shortest paths in the graph.
+        First returned list is the time taken by Brute-Force
+        Second returned list is the time taken by Bellman-Ford
+        """
+        return TestTools.get_performance(self._random_neg_graphs, "BF")
