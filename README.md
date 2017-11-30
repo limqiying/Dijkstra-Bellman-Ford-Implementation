@@ -76,7 +76,6 @@ We will obtain the entire edge set as a list of tuples specifying the shortest p
 
 Caveats for BellmanFord's Algorithm: When there is a negative cycle in the graph, the brutal force will still output some distance while the BellmanFord output one node that contained in one negative cycle. So far the best way to check which one is correct is to print the graph and see the cycle around that node. 
 
-
 # Testing
 
 Since we have two types of graphs -- one with negative edges, and one without negative edges we needed to conduct two types of tests, `NonNegativeTest` and the `NegativeTest`.
@@ -85,3 +84,34 @@ To test the correctness, the test first computes the shortest path in each of th
 It then checks that the result computed by our implementation of our shortest path algorithms is equal to the brute-force result for each graph generated.
 
 For `NegativeTest`, we have to test additionally if our Bellman-Ford algorithm correctly detects a negative cycle. We do this by verifying that the path it outputs indeed contains a negative cycle.
+
+# Performance
+
+We also implemented a way to easily visualize the performance of the different algorithms bench-marked against the runtime of the brute-force method. We discuss our analysis of our findings in the written report.
+`PerformanceTest` object contains 1000 randomly generated graphs, which we can implement 3 different types of tests with. Say that we initialized a `PerformanceTest` object
+
+```python
+pf = PerformanceTest()
+```
+
+To see the run-time of our Dijkstra's algorithm on the 1000 randomly generated graphs,
+```python
+pf.plot_dijk_log()
+pf.plot_dijk_log(brute_force_show=True)
+```
+will create a plot of nlogn + m against t, where n is the number of nodes, m the number of edges, and t the run-time of Dijkstra. Setting `brute_force_show=True` will plot the Dijkstra times against the brute force times.
+Since in theory, Dijkstra should be O(nlogn + m), we should expect a mainly linear plot.
+
+The implementation is similar for Bellman-Ford performance testing,
+```python
+pf.plot_bf_poly()
+pf.plot_bf_poly(brute_force_show=True)
+```
+will plot n*m against t. Bellman-Ford's algorithm has the theoretical time complexity of O(nm), so we too expect a linear plot.
+
+`PerformanceTest` also allows us to see how brute-force, Dijkstra and Bellman-Ford performs on graphs with a fixed n and m. Calling
+
+```python
+pf.plot_compare_pos(n, m)
+```
+Will show the scatter plots of times for 100 randomly generated graphs with n nodes and m edges, for the 3 shortest-path algorithms.
