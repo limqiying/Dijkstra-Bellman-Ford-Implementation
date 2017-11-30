@@ -100,18 +100,21 @@ pf.plot_dijk_log()
 pf.plot_dijk_log(brute_force_show=True)
 ```
 will create a plot of nlogn + m against t, where n is the number of nodes, m the number of edges, and t the run-time of Dijkstra. Setting `brute_force_show=True` will plot the Dijkstra times against the brute force times.
-Since in theory, Dijkstra should be O(nlogn + m), we should expect a mainly linear plot.
+Since in theory, Dijkstra should be O(nlogn + m), we should expect a mainly linear plot. Here is an example of such a plot we obtained:
+![Dij_perf](https://github.com/limqiying/Dijkstra-Bellman-Ford-Implementation/blob/master/plots/dijkstra_performance.png)
 
 The implementation is similar for Bellman-Ford performance testing,
 ```python
 pf.plot_bf_poly()
 pf.plot_bf_poly(brute_force_show=True)
 ```
-will plot n*m against t. Bellman-Ford's algorithm has the theoretical time complexity of O(nm), so we too expect a linear plot.
+will plot n*m against t. Bellman-Ford's algorithm has the theoretical time complexity of O(nm), so we too expect a linear plot. This is a plot we obtained:
+![BF_perf](https://github.com/limqiying/Dijkstra-Bellman-Ford-Implementation/blob/master/plots/bellman-ford%20performance.png)
 
 `PerformanceTest` also allows us to see how brute-force, Dijkstra and Bellman-Ford performs on graphs with a fixed n and m. Calling
 
 ```python
 pf.plot_compare_pos(n, m)
 ```
-Will show the scatter plots of times for 100 randomly generated graphs with n nodes and m edges, for the 3 shortest-path algorithms.
+Will show the scatter plots of times for 100 randomly generated graphs with n nodes and m edges, for the 3 shortest-path algorithms. Here is an example of something we obtained:
+![Compare](https://github.com/limqiying/Dijkstra-Bellman-Ford-Implementation/blob/master/plots/10_10.png)
